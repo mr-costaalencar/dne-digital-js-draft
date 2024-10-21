@@ -6,6 +6,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import GetStarted from "./src/screens/GetStarted";
 import Home from "./src/screens/Home";
+import Scan from "./src/screens/Scan";
+import AddDocument from "./src/screens/AddDocument";
 
 const Stack = createStackNavigator();
 
@@ -18,6 +20,8 @@ const App = () => {
       >
         <Stack.Screen name="GetStarted" component={GetStarted} />
         <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Scan" component={Scan} />
+        <Stack.Screen name="AddDocument" component={AddDocument} />
       </Stack.Navigator>
     </NavigationContainer>
   );
