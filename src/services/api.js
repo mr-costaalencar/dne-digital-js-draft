@@ -1,8 +1,9 @@
 // services/api.js
 import axios from "axios";
+import { API_URL } from '@env';
 
 const api = axios.create({
-  baseURL: "https://localhost:3000",
+  baseURL: API_URL,
 });
 
 export const loginUser = async (email, password) => {
