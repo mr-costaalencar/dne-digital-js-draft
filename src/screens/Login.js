@@ -20,14 +20,13 @@ const Login = ({ navigation }) => {
     if (email && password) {
       const response = await loginUser(email, password);
       if (response.success) {
-        // Store the JWT token in AsyncStorage
         await AsyncStorage.setItem("token", response.data.token);
         navigation.replace("Home");
       } else {
-        Alert.alert("Login Failed", response.message);
+        Alert.alert("Login Falhou", response.message);
       }
     } else {
-      Alert.alert("Error", "Please enter both email and password.");
+      Alert.alert("Erro", "Por favor entre com e-mail e senha.");
     }
   };
 
@@ -49,12 +48,37 @@ const Login = ({ navigation }) => {
       />
       <Button title="Login" onPress={handleLogin} />
       <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
-        <Text style={styles.linkText}>Don't have an account? Sign Up</Text>
+        <Text style={styles.linkText}>Não tem uma conta? Cadastre-se</Text>
       </TouchableOpacity>
     </View>
   );
 };
 
 // Add your styles here
-
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 16,
+    backgroundColor: "#fff",
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 24,
+  },
+  input: {
+    width: "100%",
+    padding: 12,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    marginBottom: 16,
+  },
+  linkText: {
+    marginTop: 16,
+    color: "#007BFF",
+  },
+});
 export default Login;
