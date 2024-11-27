@@ -1,5 +1,5 @@
 // screens/Home.js
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -8,17 +8,34 @@ import {
   FlatList,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { FontAwesome } from "@expo/vector-icons";
+import Card from "../components/Card";
+import { logoutUser } from "../services/api";
 
 const Home = ({ navigation }) => {
   const [documents, setDocuments] = useState([]);
+
+  useEffect(() => {
+    const fetchDocuments = async () => {
+      const documents = await AsyncStorage.getItem("documents");
+      if (documents) {
+        setDocuments(JSON.parse(documents));
+      }
+    };
+    fetchDocuments();
+  }, []);
+
   const handleLogout = async () => {
-    await AsyncStorage.removeItem("token");
+    await logoutUser();
     navigation.replace("Login");
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Seus Documentos</Text>
+      <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+        <FontAwesome name="sign-out" size={24} color="black" />
+      </TouchableOpacity>
       {documents.length === 0 ? (
         <View style={styles.placeholder}>
           {/* Placeholder Image */}
@@ -31,10 +48,10 @@ const Home = ({ navigation }) => {
             <TouchableOpacity
               onPress={() => navigation.navigate("DocumentDetails", { item })}
             >
-              {/* DocumentCard component */}
+              <Card {...item} />
             </TouchableOpacity>
           )}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item._id}
         />
       )}
       <TouchableOpacity
@@ -57,6 +74,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "bold",
+    marginTop: 40,
     marginBottom: 20,
   },
   placeholder: {
@@ -79,6 +97,14 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 30,
     lineHeight: 30,
+  },
+  logoutButton: {
+    position: "absolute",
+    top: 55,
+    right: 20,
+    padding: 10,
+    backgroundColor: "transparent",
+    borderRadius: 5,
   },
 });
 export default Home;
