@@ -1,25 +1,55 @@
 // screens/AddDocument.js
-import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
+import { ActivityIndicator, View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { getDocumentData } from "../services/api";
+import DocumentCard from "../components/DocumentCard";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AddDocument = ({ route, navigation }) => {
   const { data } = route.params;
 
-  // Parse data to extract document info
-  const documentInfo = {
-    // Extracted fields
+  const [documentInfo, setDocumentInfo] = useState(null);
+
+  useEffect(() => {
+    const fetchDocumentData = async () => {
+      const parsedData = await parseDocumentData(data);
+      setDocumentInfo(parsedData);
+    };
+
+    fetchDocumentData();
+  }, [data]);
+
+  const parseDocumentData = async (data) => {
+    const documentData = await getDocumentData(data);
+    return {
+      _id: documentData[0]._id || "Unknown _id",
+      name: documentData[0].name || "Unknown name",
+      cpf: documentData[0].cpf || "Unknown cpf",
+      birthDate: documentData[0].birthDate || "Unknown date",
+      institution: documentData[0].institution || "Unknown institution",
+      course: documentData[0].course || "Unknown course",
+      issuer: documentData[0].issuer || "Unknown issuer",
+      validity: documentData[0].validity || "Unknown date",
+    };
   };
 
-  const handleAdd = () => {
-    // Add document to state/storage
-    navigation.navigate("Home");
+  const handleAdd = async () => {
+    try {
+      const documentList =
+        JSON.parse(await AsyncStorage.getItem("documents")) || [];
+      documentList.push(documentInfo);
+      await AsyncStorage.setItem("documents", JSON.stringify(documentList));
+      navigation.navigate("Home");
+    } catch (error) {
+      console.error("Error saving document", error);
+    }
   };
 
-  return (
+  return documentInfo ? (
     <View style={styles.container}>
       <Text style={styles.title}>Adicionar</Text>
       <Text style={styles.text}>Verifique as informações do seu documento</Text>
-      {/* Display document card with documentInfo */}
+      {documentInfo && <DocumentCard {...documentInfo} />}
       <TouchableOpacity style={styles.addButton} onPress={handleAdd}>
         <Text style={styles.addButtonText}>Adicionar</Text>
       </TouchableOpacity>
@@ -29,6 +59,10 @@ const AddDocument = ({ route, navigation }) => {
       >
         <Text>Cancelar</Text>
       </TouchableOpacity>
+    </View>
+  ) : (
+    <View style={styles.container}>
+      <ActivityIndicator size="large" color="#0000ff" />
     </View>
   );
 };
