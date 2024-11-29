@@ -1,5 +1,5 @@
 // screens/Home.js
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   View,
   Text,
@@ -11,19 +11,25 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FontAwesome } from "@expo/vector-icons";
 import Card from "../components/Card";
 import { logoutUser } from "../services/api";
+import { useFocusEffect } from "@react-navigation/native";
 
 const Home = ({ navigation }) => {
   const [documents, setDocuments] = useState([]);
 
-  useEffect(() => {
-    const fetchDocuments = async () => {
-      const documents = await AsyncStorage.getItem("documents");
-      if (documents) {
-        setDocuments(JSON.parse(documents));
-      }
-    };
-    fetchDocuments();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      const fetchDocuments = async () => {
+        const documents = await AsyncStorage.getItem("documents");
+        if (documents) {
+          setDocuments(JSON.parse(documents));
+        }
+      };
+
+      fetchDocuments();
+
+      return () => {};
+    }, [])
+  );
 
   const handleLogout = async () => {
     await logoutUser();
