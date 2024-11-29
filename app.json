@@ -12,7 +12,8 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "br.dev.r3.dnedigitaljs"
     },
     "android": {
       "adaptiveIcon": {
@@ -28,6 +29,16 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
+    "platforms": [
+      "android",
+      "ios"
+    ],
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "plugins": [
       [
         "expo-camera",
@@ -39,7 +50,10 @@
       ]
     ],
     "extra": {
-      "apiUrl": "http://localhost:3000"
+      "apiUrl": "http://localhost:3000",
+      "eas": {
+        "projectId": "862a9d9c-1dd1-4e7f-97c0-38f4b57318d6"
+      }
     }
   }
 }

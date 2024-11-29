@@ -34,3 +34,5 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 .env
+dne-digital-js-release-key.keystore
+android/gradle.properties
