@@ -12,7 +12,8 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "br.dev.r3.dnedigitaljs"
     },
     "android": {
       "adaptiveIcon": {
@@ -28,6 +29,16 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
+    "platforms": [
+      "android",
+      "ios"
+    ],
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "plugins": [
       [
         "expo-camera",
@@ -36,10 +47,21 @@
           "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone",
           "recordAudioAndroid": true
         }
-      ]
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ],
+      "./plugins/trust-local-certs.js"
     ],
     "extra": {
-      "apiUrl": "http://localhost:3000"
+      "eas": {
+        "projectId": "01957b65-c524-4313-80f0-13602fab328f"
+      }
     }
   }
 }

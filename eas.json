@@ -1,0 +1,30 @@
+{
+  "cli": {
+    "version": ">= 13.4.2",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "env": {
+        "API_URL": "https://dne-digital-js-backend.onrender.com"
+      },
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "env": {
+        "API_URL": "https://dne-digital-js-backend.onrender.com"
+      },
+      "distribution": "internal"
+    },
+    "production": {
+      "env": {
+        "API_URL": "https://dne-digital-js-backend.onrender.com"
+      },
+      "autoIncrement": true
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}
