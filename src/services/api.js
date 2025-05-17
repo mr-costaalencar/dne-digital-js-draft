@@ -50,3 +50,11 @@ export const getDocumentData = async (qrCodeData) => {
     console.error(error);
   }
 };
+
+export const getProfilePicture = (profilePicture) => {
+  if (profilePicture) {
+    const pictureURL = API_URL + "/" + profilePicture.replace(/\\/g, "/");
+    return { uri: pictureURL };
+  }
+  return require("../assets/profile-picture.jpg");
+};

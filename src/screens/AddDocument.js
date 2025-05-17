@@ -30,6 +30,7 @@ const AddDocument = ({ route, navigation }) => {
       course: documentData[0].course || "Unknown course",
       issuer: documentData[0].issuer || "Unknown issuer",
       validity: documentData[0].validity || "Unknown date",
+      profilePicture: documentData[0].profilePicture || null,
     };
   };
 
